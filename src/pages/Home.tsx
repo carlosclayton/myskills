@@ -25,6 +25,10 @@ export function Home() {
     setMySkills(oldState => [...oldState, data]);
   }
 
+  function handleRemoveSkill(id: string) {
+    setMySkills(oldState => oldState.filter(skill => skill.id !== id));
+  }
+
   useEffect(() => {
     const hour = new Date().getHours();
     if (hour >= 0 && hour <= 12) {
@@ -53,7 +57,12 @@ export function Home() {
         <FlatList
           data={mySkills}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <SkillCard skill={item.name} />}
+          renderItem={({item}) => (
+            <SkillCard
+              skill={item.name}
+              onPress={() => handleRemoveSkill(item.id)}
+            />
+          )}
         />
       </SafeAreaView>
     </>
@@ -65,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
     paddingHorizontal: 20,
-    paddingVertical: 70,
+    paddingVertical: 30,
   },
   title: {
     color: 'white',
